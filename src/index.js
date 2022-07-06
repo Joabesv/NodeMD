@@ -9,6 +9,7 @@ const extractLink = text => {
   while ((temp = regex.exec(text)) !== null) {
     resultArray.push({ [temp[1]]: temp[2] });
   }
+
   return resultArray;
 };
 
@@ -16,14 +17,14 @@ const errTreatment = err => {
   throw new Error(chalk.red(err.code, err.message));
 };
 
-const getFile = async filepath => {
+export const getFile = async filepath => {
   const ENCODING = 'utf-8';
   try {
     const data = await readFile(filepath, ENCODING);
-    console.log(extractLink(data));
+    return extractLink(data);
   } catch (err) {
     console.log('something went wrong', errTreatment(err));
   }
 };
 
-console.log(await getFile('sample.md'));
+// console.log(await getFile('sample.md'));
