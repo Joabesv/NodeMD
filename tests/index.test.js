@@ -15,4 +15,8 @@ describe('getFile::', () => {
     const result = await getFile('./tests/samples/sample.md');
     expect(result).toEqual(arrayResult);
   });
+  it('should return there are no links', async () => {
+    const result = await getFile('./tests/samples/sample_no_links.md');
+    expect(result).toBe('0 links were found');
+  });
 });
