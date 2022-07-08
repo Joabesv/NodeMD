@@ -1,13 +1,22 @@
+import chalk from 'chalk';
 import fetch from 'node-fetch';
 
+function handleErrors(err) {
+  throw new Error(chalk.red(err.code, err.message));
+}
+
 const checkStatus = async arrayUrls => {
-  const statArray = await Promise.all(
-    arrayUrls.map(async url => {
-      const response = await fetch(url);
-      return response.status;
-    })
-  );
-  return statArray;
+  try {
+    const statArray = await Promise.all(
+      arrayUrls.map(async url => {
+        const response = await fetch(url);
+        return `${response.status} - ${response.statusText}`;
+      })
+    );
+    return statArray;
+  } catch (err) {
+    handleErrors(err);
+  }
 };
 
 const generateUrlArray = linksArray => {
@@ -17,5 +26,11 @@ const generateUrlArray = linksArray => {
 export async function validateUrls(linksArray) {
   const links = generateUrlArray(linksArray);
   const statusLink = await checkStatus(links);
-  return statusLink;
+
+  const result = linksArray.map((obj, index) => ({
+    ...obj,
+    status: statusLink[index],
+  }));
+
+  return result;
 }
