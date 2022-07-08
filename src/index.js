@@ -10,7 +10,7 @@ const extractLink = text => {
     resultArray.push({ [temp[1]]: temp[2] });
   }
 
-  return resultArray;
+  return resultArray.length === 0 ? '0 links were found' : resultArray;
 };
 
 const errTreatment = err => {
