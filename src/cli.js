@@ -7,7 +7,7 @@ const processText = async filepath => {
   const result = await getFile(filepath[2]);
 
   if (path[3] === '--validate') {
-    console.log(chalk.yellow('Links Validados:'), validateUrls(result));
+    console.log(chalk.yellow('Links Validados:'), await validateUrls(result));
   } else {
     console.log(chalk.yellow('Links list:'), result);
   }
